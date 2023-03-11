@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21752.1" systemVersion="22E5236f" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Day" representedClassName="Day" syncable="YES">
+        <attribute name="club" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="clubRepos" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="dateOfDay" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="home" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="idTypeDay" optional="YES" attributeType="Transformable"/>
+        <relationship name="typeHome" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TypeHome" inverseName="day" inverseEntity="TypeHome"/>
+    </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES">
+        <attribute name="clubPointsGo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="clubPointsNone" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dayLastDeleteDone" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="firstDay" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="homePointsGo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="homePointsNone" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="register" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="SportPractice" representedClassName="SportPractice" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="done" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lien" optional="YES" attributeType="String"/>
+        <attribute name="repetitions" optional="YES" attributeType="String"/>
+        <attribute name="repos" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="typeDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TypeDay" inverseName="sportPractice" inverseEntity="TypeDay"/>
+    </entity>
+    <entity name="TypeDay" representedClassName="TypeDay" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="icone" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="index" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="sportPractice" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SportPractice" inverseName="typeDay" inverseEntity="SportPractice"/>
+    </entity>
+    <entity name="TypeHome" representedClassName="TypeHome" syncable="YES">
+        <attribute name="abdo" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="pompe" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="day" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Day" inverseName="typeHome" inverseEntity="Day"/>
+    </entity>
+</model>
