@@ -13,10 +13,10 @@ import WidgetKit
 
 
 
-//public func convertPractices(practices:[SportPractice])->[SportPracticeForLiveActivity]{
-//    var array=[SportPracticeForLiveActivity]()
+//public func convertPractices(practices:[Practice])->[PracticeForLiveActivity]{
+//    var array=[PracticeForLiveActivity]()
 //    for practice in practices {
-//        let item=SportPracticeForLiveActivity(repetitions: practice.repetitions ?? "", title: practice.title, repos: Int(practice.repos))
+//        let item=PracticeForLiveActivity(repetitions: practice.repetitions ?? "", name: practice.name, repos: Int(practice.repos))
 //        array.append(item)
 //    }
 //    return array
@@ -64,7 +64,6 @@ import WidgetKit
 //                print("top")
 //            }
 //        }
-////        TODO: udate data when change
 //    }
 //    func end() {
 //        let finalContentState = PracticeActivityAttributes.ContentState(time: Date.now...Date(),pauseTime: nil, isOn: false,index: timerState.timerState!.index, practices: convertPractices(practices: timerState.timerState!.practices))

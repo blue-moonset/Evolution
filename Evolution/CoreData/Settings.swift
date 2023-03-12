@@ -15,12 +15,13 @@ public class Settings: NSManagedObject,Identifiable {
         return NSFetchRequest<Settings>(entityName: "Settings")
     }
 
-    @NSManaged public var firstDay: Date?
+    @NSManaged public var firstDay: Date
     @NSManaged public var homePointsGo: Int16
     @NSManaged public var homePointsNone: Int16
     @NSManaged public var clubPointsGo: Int16
     @NSManaged public var clubPointsNone: Int16
-    @NSManaged public var dayLastDeleteDone: Date?
+    @NSManaged public var dayLastDeleteDone: Date
     @NSManaged public var register: Bool
+    @NSManaged public var backup: Backup?
     
 }

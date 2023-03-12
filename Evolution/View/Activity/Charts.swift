@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-import SwiftUI
+import CoreData
 import Charts
 
 struct Value: Identifiable {
@@ -17,27 +17,24 @@ struct Value: Identifiable {
 }
 
 struct Charts: View {
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Day.dateOfDay, ascending: true)],
-        animation: .default)
-    private var days: FetchedResults<Day>
+    
     @State var datas: [Value]=[]
-    @FetchRequest(sortDescriptors: [
-    ])var settings:FetchedResults<Settings>
     @Binding var total:Int
-    @Binding var isPresented:Bool
     @State var daysBetween=0
+    @StateObject var mainData:MainData = .shared
     var body: some View {
         
         VStack(spacing: 0){
             if daysBetween<3{
                 HStack{
+                    Spacer()
                     if 3-daysBetween==1{
                         Text("Reviens demain")
                     }else{
                         Text("Reviens dans \(3-daysBetween) jours")
                     }
                     Image(systemName: "hourglass")
+                    Spacer()
                 }
             }else{
                 Chart(datas) {
@@ -62,73 +59,84 @@ struct Charts: View {
             }
         }
         .onAppear{
-            daysBetween=Evolution.daysBetween(start: settings.first!.firstDay!, end: Date())
+            datas=[]
+            daysBetween=daysBetween(start: mainData.mainBackup!.settings!.firstDay, end: Date())
             load(allDays: daysFollowingDate())
         }.onDisappear{
             datas=[]
-        }.onChange(of: days.count){ new in
+        }.onChange(of: mainData.mainBackup!.allActivity().count){ new in
             datas=[]
             load(allDays: daysFollowingDate())
-        }.onChange(of: isPresented){ new in
-            if new{
-                datas=[]
-                load(allDays: daysFollowingDate())
-            }
+        }.onChange(of: mainData.mainBackup!.settings!.firstDay){ new in
+            datas=[]
+            load(allDays: daysFollowingDate())
         }
         
         
     }
     func daysFollowingDate() -> [Date] {
         var days = [Date]()
-        var nextDay = settings.first!.firstDay!
+        var nextDay = mainData.mainBackup!.settings!.firstDay
         while nextDay <= Date() {
             days.append(nextDay)
             nextDay = Calendar.current.date(byAdding: .day, value: 1, to: nextDay)!
         }
         return days
     }
-    func isDateInFetchedResults(_ date: Date) -> Day? {
-        return days.first { Calendar.current.isDate($0.dateOfDay, inSameDayAs: date) }
+    func isDateInFetchedResults(_ date: Date) -> Activity? {
+        return mainData.mainBackup!.allActivity().reversed().first { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
     func load(allDays:[Date]){
         var total=0
         for day in allDays {
             if let d=isDateInFetchedResults(day){
                 total += calculation(d).total
-                datas.append(Value(date: d.dateOfDay, total: total))
+                datas.append(Value(date: d.date, total: total))
             }else{
-                total += Int((settings.first!.clubPointsNone+settings.first!.homePointsNone))
+                total += Int((mainData.mainBackup!.settings!.clubPointsNone+mainData.mainBackup!.settings!.homePointsNone))
                 datas.append(Value(date: day, total: total))
             }
         }
         self.total=total
     }
-    func calculation(_ day:Day)->(club:Int,home:Int,total:Int){
+    func calculation(_ day:Activity)->(club:Int,home:Int,total:Int){
         var result:(club:Int,home:Int,total:Int)=(club:0,home:0,total:0)
         if day.club==true {
-            result.club = Int(settings.first!.clubPointsGo)
+            result.club = Int(mainData.mainBackup!.settings!.clubPointsGo)
         }else if day.club==false && day.clubRepos==false{
-            result.club = Int(settings.first!.clubPointsNone)
+            result.club = Int(mainData.mainBackup!.settings!.clubPointsNone)
         }
         result.total += result.club
         if day.home==true{
-            result.home = Int(settings.first!.homePointsGo)
+            result.home = Int(mainData.mainBackup!.settings!.homePointsGo)
         }else{
-            result.home = Int(settings.first!.homePointsNone)
+            result.home = Int(mainData.mainBackup!.settings!.homePointsNone)
         }
         result.total += result.home
         return result
     }
+    func daysBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: start)!, to: Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: end)!).day!
+    }
 }
 
-func daysBetween(start: Date, end: Date) -> Int {
-    return Calendar.current.dateComponents([.day], from: Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: start)!, to: Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: end)!).day!
-}
+
+
 struct Charts_Previews: PreviewProvider {
+    static var mainData:MainData = .shared
+    static let viewContext=PersistenceController.preview.container.viewContext
+    
+    static let fetchRequest: NSFetchRequest<Backup> = Backup.fetchRequest()
     static var previews: some View {
-        List {
-            Charts(total: .constant(0),isPresented:.constant(false))
-                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        if let backup = try? viewContext.fetch(fetchRequest).first, save(backup){
+            List {
+                Charts(total: .constant(0))
+                    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            }
         }
+    }
+    static func save(_ backup:Backup)->Bool{
+        mainData.mainBackup=backup
+        return true
     }
 }

@@ -7,21 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F079384329C39C2C00659F5F /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = F079384229C39C2C00659F5F /* Test.swift */; };
+		F0845C3B29C3F26B008FCAFB /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = F0845C3A29C3F26B008FCAFB /* Introspect */; };
+		F097C2C529C103BD006DF4A6 /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2C129C103BD006DF4A6 /* ObjectID.swift */; };
+		F097C2C929C10FEB006DF4A6 /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2C129C103BD006DF4A6 /* ObjectID.swift */; };
+		F097C2D729C14781006DF4A6 /* FirstCreationTrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2D629C14781006DF4A6 /* FirstCreationTrainingDay.swift */; };
+		F097C2DC29C22E06006DF4A6 /* MainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6B29BE581400E4AC33 /* MainData.swift */; };
+		F097C2DD29C22E6A006DF4A6 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED529BD227500E4AC33 /* LaunchScreenView.swift */; };
+		F097C2DE29C23066006DF4A6 /* Evolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F0B92E7729BFEF5000FBEF60 /* Evolution.xcdatamodeld */; };
+		F097C2E929C31FED006DF4A6 /* WorkInHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2E729C31FED006DF4A6 /* WorkInHome.swift */; };
+		F097C2EB29C32011006DF4A6 /* WorkInHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2E729C31FED006DF4A6 /* WorkInHome.swift */; };
+		F097C2ED29C34083006DF4A6 /* CustomWorkInHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F097C2EC29C34083006DF4A6 /* CustomWorkInHome.swift */; };
+		F0B92E7929BFEF5000FBEF60 /* Evolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F0B92E7729BFEF5000FBEF60 /* Evolution.xcdatamodeld */; };
 		F0FBFEBC29BD223800E4AC33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0FBFEBB29BD223800E4AC33 /* Assets.xcassets */; };
 		F0FBFEBF29BD223800E4AC33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0FBFEBE29BD223800E4AC33 /* Preview Assets.xcassets */; };
-		F0FBFEC429BD223800E4AC33 /* Evolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEC229BD223800E4AC33 /* Evolution.xcdatamodeld */; };
-		F0FBFEEA29BD227500E4AC33 /* AddActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFECE29BD227500E4AC33 /* AddActivity.swift */; };
+		F0FBFEEA29BD227500E4AC33 /* AddActivites.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFECE29BD227500E4AC33 /* AddActivites.swift */; };
 		F0FBFEEB29BD227500E4AC33 /* Charts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFECF29BD227500E4AC33 /* Charts.swift */; };
-		F0FBFEEC29BD227500E4AC33 /* DaysTraining.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED029BD227500E4AC33 /* DaysTraining.swift */; };
+		F0FBFEEC29BD227500E4AC33 /* AllActivities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED029BD227500E4AC33 /* AllActivities.swift */; };
 		F0FBFEED29BD227500E4AC33 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED229BD227500E4AC33 /* Login.swift */; };
 		F0FBFEEE29BD227500E4AC33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED429BD227500E4AC33 /* SettingsView.swift */; };
 		F0FBFEEF29BD227500E4AC33 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED529BD227500E4AC33 /* LaunchScreenView.swift */; };
 		F0FBFEF029BD227500E4AC33 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED629BD227500E4AC33 /* ContentView.swift */; };
 		F0FBFEF129BD227500E4AC33 /* SF.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED829BD227500E4AC33 /* SF.swift */; };
-		F0FBFEF229BD227500E4AC33 /* Training.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED929BD227500E4AC33 /* Training.swift */; };
-		F0FBFEF329BD227500E4AC33 /* OrderTypeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDA29BD227500E4AC33 /* OrderTypeDay.swift */; };
+		F0FBFEF229BD227500E4AC33 /* AllPractices.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFED929BD227500E4AC33 /* AllPractices.swift */; };
 		F0FBFEF429BD227500E4AC33 /* TimeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDB29BD227500E4AC33 /* TimeMode.swift */; };
-		F0FBFEF529BD227500E4AC33 /* AddPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDC29BD227500E4AC33 /* AddPractice.swift */; };
+		F0FBFEF529BD227500E4AC33 /* CustomPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDC29BD227500E4AC33 /* CustomPractice.swift */; };
 		F0FBFEF629BD227500E4AC33 /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDE29BD227500E4AC33 /* WatchManager.swift */; };
 		F0FBFEF729BD227500E4AC33 /* SessionWatchDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDF29BD227500E4AC33 /* SessionWatchDelegater.swift */; };
 		F0FBFEF829BD227500E4AC33 /* LiveActivityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE029BD227500E4AC33 /* LiveActivityHelper.swift */; };
@@ -32,11 +42,10 @@
 		F0FBFEFD29BD227500E4AC33 /* EvolutionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE629BD227500E4AC33 /* EvolutionApp.swift */; };
 		F0FBFEFE29BD227500E4AC33 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE829BD227500E4AC33 /* TimerState.swift */; };
 		F0FBFEFF29BD227500E4AC33 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE929BD227500E4AC33 /* Symbols.swift */; };
-		F0FBFF0829BD229A00E4AC33 /* SportPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0129BD229A00E4AC33 /* SportPractice.swift */; };
-		F0FBFF0929BD229A00E4AC33 /* TypeHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0229BD229A00E4AC33 /* TypeHome.swift */; };
+		F0FBFF0829BD229A00E4AC33 /* Practice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0129BD229A00E4AC33 /* Practice.swift */; };
 		F0FBFF0A29BD229A00E4AC33 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0329BD229A00E4AC33 /* Persistence.swift */; };
-		F0FBFF0B29BD229A00E4AC33 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0429BD229A00E4AC33 /* Day.swift */; };
-		F0FBFF0D29BD229A00E4AC33 /* TypeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0729BD229A00E4AC33 /* TypeDay.swift */; };
+		F0FBFF0B29BD229A00E4AC33 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0429BD229A00E4AC33 /* Activity.swift */; };
+		F0FBFF0D29BD229A00E4AC33 /* TrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0729BD229A00E4AC33 /* TrainingDay.swift */; };
 		F0FBFF1629BD237500E4AC33 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FBFF1529BD237500E4AC33 /* WidgetKit.framework */; };
 		F0FBFF1829BD237500E4AC33 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FBFF1729BD237500E4AC33 /* SwiftUI.framework */; };
 		F0FBFF1B29BD237500E4AC33 /* PracticeActivityBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF1A29BD237500E4AC33 /* PracticeActivityBundle.swift */; };
@@ -54,20 +63,26 @@
 		F0FBFF4429BD249C00E4AC33 /* WatchEvolution Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = F0FBFF3729BD249B00E4AC33 /* WatchEvolution Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F0FBFF4B29BD255600E4AC33 /* HapticController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF4A29BD255600E4AC33 /* HapticController.swift */; };
 		F0FBFF4C29BD258100E4AC33 /* WatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDE29BD227500E4AC33 /* WatchManager.swift */; };
-		F0FBFF4D29BD258F00E4AC33 /* SportPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0129BD229A00E4AC33 /* SportPractice.swift */; };
-		F0FBFF4E29BD25C900E4AC33 /* TypeDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0729BD229A00E4AC33 /* TypeDay.swift */; };
+		F0FBFF4D29BD258F00E4AC33 /* Practice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0129BD229A00E4AC33 /* Practice.swift */; };
+		F0FBFF4E29BD25C900E4AC33 /* TrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0729BD229A00E4AC33 /* TrainingDay.swift */; };
 		F0FBFF4F29BD25E700E4AC33 /* ConvertSportPracticeToTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE429BD227500E4AC33 /* ConvertSportPracticeToTarget.swift */; };
 		F0FBFF5029BD25F200E4AC33 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0329BD229A00E4AC33 /* Persistence.swift */; };
 		F0FBFF5129BD25FD00E4AC33 /* DataPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE229BD227500E4AC33 /* DataPractice.swift */; };
 		F0FBFF5229BD260800E4AC33 /* SessionWatchDelegater.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEDF29BD227500E4AC33 /* SessionWatchDelegater.swift */; };
 		F0FBFF5329BD260D00E4AC33 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE829BD227500E4AC33 /* TimerState.swift */; };
-		F0FBFF5429BD261500E4AC33 /* TypeHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0229BD229A00E4AC33 /* TypeHome.swift */; };
-		F0FBFF5529BD261C00E4AC33 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0429BD229A00E4AC33 /* Day.swift */; };
+		F0FBFF5529BD261C00E4AC33 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF0429BD229A00E4AC33 /* Activity.swift */; };
 		F0FBFF5629BD262700E4AC33 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEE529BD227500E4AC33 /* Extension.swift */; };
-		F0FBFF5729BD27A700E4AC33 /* Evolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFEC229BD223800E4AC33 /* Evolution.xcdatamodeld */; };
 		F0FBFF5E29BD336600E4AC33 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF5C29BD336600E4AC33 /* Settings.swift */; };
 		F0FBFF6029BD389A00E4AC33 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF5C29BD336600E4AC33 /* Settings.swift */; };
 		F0FBFF6229BD3F9300E4AC33 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6129BD3F9300E4AC33 /* Register.swift */; };
+		F0FBFF6629BD5B5600E4AC33 /* AnimatedCheckmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6529BD5B5600E4AC33 /* AnimatedCheckmarkView.swift */; };
+		F0FBFF6A29BE57B800E4AC33 /* AddTrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6929BE57B800E4AC33 /* AddTrainingDay.swift */; };
+		F0FBFF6C29BE581400E4AC33 /* MainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6B29BE581400E4AC33 /* MainData.swift */; };
+		F0FBFF6E29BE5D5300E4AC33 /* AddPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF6D29BE5D5300E4AC33 /* AddPractice.swift */; };
+		F0FBFF7829BE743200E4AC33 /* Backup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF7629BE743200E4AC33 /* Backup.swift */; };
+		F0FBFF7A29BE743B00E4AC33 /* Backup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF7629BE743200E4AC33 /* Backup.swift */; };
+		F0FBFF7C29BE7F7800E4AC33 /* ManyBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF7B29BE7F7800E4AC33 /* ManyBackup.swift */; };
+		F0FBFF8929BF4D2F00E4AC33 /* AllTrainingDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FBFF8829BF4D2F00E4AC33 /* AllTrainingDayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,23 +128,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F079384229C39C2C00659F5F /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		F097C2C129C103BD006DF4A6 /* ObjectID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
+		F097C2D629C14781006DF4A6 /* FirstCreationTrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreationTrainingDay.swift; sourceTree = "<group>"; };
+		F097C2E729C31FED006DF4A6 /* WorkInHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkInHome.swift; sourceTree = "<group>"; };
+		F097C2EC29C34083006DF4A6 /* CustomWorkInHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomWorkInHome.swift; sourceTree = "<group>"; };
+		F0B92E7829BFEF5000FBEF60 /* Evolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Evolution.xcdatamodel; sourceTree = "<group>"; };
 		F0FBFEB429BD223700E4AC33 /* Evolution.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evolution.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0FBFEBB29BD223800E4AC33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0FBFEBE29BD223800E4AC33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F0FBFEC329BD223800E4AC33 /* Evolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Evolution.xcdatamodel; sourceTree = "<group>"; };
 		F0FBFEC529BD223800E4AC33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F0FBFECE29BD227500E4AC33 /* AddActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActivity.swift; sourceTree = "<group>"; };
+		F0FBFECE29BD227500E4AC33 /* AddActivites.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddActivites.swift; sourceTree = "<group>"; };
 		F0FBFECF29BD227500E4AC33 /* Charts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charts.swift; sourceTree = "<group>"; };
-		F0FBFED029BD227500E4AC33 /* DaysTraining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaysTraining.swift; sourceTree = "<group>"; };
+		F0FBFED029BD227500E4AC33 /* AllActivities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllActivities.swift; sourceTree = "<group>"; };
 		F0FBFED229BD227500E4AC33 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		F0FBFED429BD227500E4AC33 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F0FBFED529BD227500E4AC33 /* LaunchScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		F0FBFED629BD227500E4AC33 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F0FBFED829BD227500E4AC33 /* SF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SF.swift; sourceTree = "<group>"; };
-		F0FBFED929BD227500E4AC33 /* Training.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Training.swift; sourceTree = "<group>"; };
-		F0FBFEDA29BD227500E4AC33 /* OrderTypeDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderTypeDay.swift; sourceTree = "<group>"; };
+		F0FBFED929BD227500E4AC33 /* AllPractices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPractices.swift; sourceTree = "<group>"; };
 		F0FBFEDB29BD227500E4AC33 /* TimeMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeMode.swift; sourceTree = "<group>"; };
-		F0FBFEDC29BD227500E4AC33 /* AddPractice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPractice.swift; sourceTree = "<group>"; };
+		F0FBFEDC29BD227500E4AC33 /* CustomPractice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPractice.swift; sourceTree = "<group>"; };
 		F0FBFEDE29BD227500E4AC33 /* WatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchManager.swift; sourceTree = "<group>"; };
 		F0FBFEDF29BD227500E4AC33 /* SessionWatchDelegater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionWatchDelegater.swift; sourceTree = "<group>"; };
 		F0FBFEE029BD227500E4AC33 /* LiveActivityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveActivityHelper.swift; sourceTree = "<group>"; };
@@ -140,11 +159,10 @@
 		F0FBFEE629BD227500E4AC33 /* EvolutionApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvolutionApp.swift; sourceTree = "<group>"; };
 		F0FBFEE829BD227500E4AC33 /* TimerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
 		F0FBFEE929BD227500E4AC33 /* Symbols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
-		F0FBFF0129BD229A00E4AC33 /* SportPractice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SportPractice.swift; sourceTree = "<group>"; };
-		F0FBFF0229BD229A00E4AC33 /* TypeHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeHome.swift; sourceTree = "<group>"; };
+		F0FBFF0129BD229A00E4AC33 /* Practice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Practice.swift; sourceTree = "<group>"; };
 		F0FBFF0329BD229A00E4AC33 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		F0FBFF0429BD229A00E4AC33 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
-		F0FBFF0729BD229A00E4AC33 /* TypeDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeDay.swift; sourceTree = "<group>"; };
+		F0FBFF0429BD229A00E4AC33 /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		F0FBFF0729BD229A00E4AC33 /* TrainingDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainingDay.swift; sourceTree = "<group>"; };
 		F0FBFF0E29BD233B00E4AC33 /* Evolution.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Evolution.entitlements; sourceTree = "<group>"; };
 		F0FBFF1329BD237500E4AC33 /* PracticeActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PracticeActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0FBFF1529BD237500E4AC33 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -165,6 +183,13 @@
 		F0FBFF4A29BD255600E4AC33 /* HapticController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticController.swift; sourceTree = "<group>"; };
 		F0FBFF5C29BD336600E4AC33 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F0FBFF6129BD3F9300E4AC33 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		F0FBFF6529BD5B5600E4AC33 /* AnimatedCheckmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCheckmarkView.swift; sourceTree = "<group>"; };
+		F0FBFF6929BE57B800E4AC33 /* AddTrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTrainingDay.swift; sourceTree = "<group>"; };
+		F0FBFF6B29BE581400E4AC33 /* MainData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainData.swift; sourceTree = "<group>"; };
+		F0FBFF6D29BE5D5300E4AC33 /* AddPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPractice.swift; sourceTree = "<group>"; };
+		F0FBFF7629BE743200E4AC33 /* Backup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backup.swift; sourceTree = "<group>"; };
+		F0FBFF7B29BE7F7800E4AC33 /* ManyBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManyBackup.swift; sourceTree = "<group>"; };
+		F0FBFF8829BF4D2F00E4AC33 /* AllTrainingDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTrainingDayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0845C3B29C3F26B008FCAFB /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,6 +248,7 @@
 				F0FBFEC529BD223800E4AC33 /* Info.plist */,
 				F0FBFEE629BD227500E4AC33 /* EvolutionApp.swift */,
 				F0FBFEE529BD227500E4AC33 /* Extension.swift */,
+				F079384229C39C2C00659F5F /* Test.swift */,
 				F0FBFEDD29BD227500E4AC33 /* Controller */,
 				F0FBFEE129BD227500E4AC33 /* Model */,
 				F0FBFEE729BD227500E4AC33 /* Stores */,
@@ -247,7 +274,7 @@
 				F0FBFECD29BD227500E4AC33 /* Activity */,
 				F0FBFED129BD227500E4AC33 /* Account */,
 				F0FBFED329BD227500E4AC33 /* Main */,
-				F0FBFED729BD227500E4AC33 /* Practices */,
+				F0FBFED729BD227500E4AC33 /* AllPractices */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,9 +282,10 @@
 		F0FBFECD29BD227500E4AC33 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				F0FBFECE29BD227500E4AC33 /* AddActivity.swift */,
+				F0FBFECE29BD227500E4AC33 /* AddActivites.swift */,
 				F0FBFECF29BD227500E4AC33 /* Charts.swift */,
-				F0FBFED029BD227500E4AC33 /* DaysTraining.swift */,
+				F0FBFED029BD227500E4AC33 /* AllActivities.swift */,
+				F097C2EC29C34083006DF4A6 /* CustomWorkInHome.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -265,6 +293,11 @@
 		F0FBFED129BD227500E4AC33 /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				F0FBFED529BD227500E4AC33 /* LaunchScreenView.swift */,
+				F0FBFED429BD227500E4AC33 /* SettingsView.swift */,
+				F0FBFF7B29BE7F7800E4AC33 /* ManyBackup.swift */,
+				F097C2D629C14781006DF4A6 /* FirstCreationTrainingDay.swift */,
+				F0FBFF6129BD3F9300E4AC33 /* Register.swift */,
 				F0FBFED229BD227500E4AC33 /* Login.swift */,
 			);
 			path = Account;
@@ -273,24 +306,22 @@
 		F0FBFED329BD227500E4AC33 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				F0FBFED429BD227500E4AC33 /* SettingsView.swift */,
-				F0FBFED529BD227500E4AC33 /* LaunchScreenView.swift */,
 				F0FBFED629BD227500E4AC33 /* ContentView.swift */,
-				F0FBFF6129BD3F9300E4AC33 /* Register.swift */,
+				F0FBFF6529BD5B5600E4AC33 /* AnimatedCheckmarkView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
 		};
-		F0FBFED729BD227500E4AC33 /* Practices */ = {
+		F0FBFED729BD227500E4AC33 /* AllPractices */ = {
 			isa = PBXGroup;
 			children = (
+				F0FBFED929BD227500E4AC33 /* AllPractices.swift */,
+				F0FBFF8829BF4D2F00E4AC33 /* AllTrainingDayView.swift */,
 				F0FBFED829BD227500E4AC33 /* SF.swift */,
-				F0FBFED929BD227500E4AC33 /* Training.swift */,
-				F0FBFEDA29BD227500E4AC33 /* OrderTypeDay.swift */,
 				F0FBFEDB29BD227500E4AC33 /* TimeMode.swift */,
-				F0FBFEDC29BD227500E4AC33 /* AddPractice.swift */,
+				F0FBFF6829BE577400E4AC33 /* Custom */,
 			);
-			path = Practices;
+			path = AllPractices;
 			sourceTree = "<group>";
 		};
 		F0FBFEDD29BD227500E4AC33 /* Controller */ = {
@@ -318,6 +349,7 @@
 			children = (
 				F0FBFEE829BD227500E4AC33 /* TimerState.swift */,
 				F0FBFEE929BD227500E4AC33 /* Symbols.swift */,
+				F0FBFF6B29BE581400E4AC33 /* MainData.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -325,13 +357,15 @@
 		F0FBFF0029BD229A00E4AC33 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				F0FBFF0129BD229A00E4AC33 /* SportPractice.swift */,
-				F0FBFF0229BD229A00E4AC33 /* TypeHome.swift */,
-				F0FBFEC229BD223800E4AC33 /* Evolution.xcdatamodeld */,
-				F0FBFF0329BD229A00E4AC33 /* Persistence.swift */,
-				F0FBFF0429BD229A00E4AC33 /* Day.swift */,
-				F0FBFF0729BD229A00E4AC33 /* TypeDay.swift */,
+				F097C2C129C103BD006DF4A6 /* ObjectID.swift */,
+				F0FBFF7629BE743200E4AC33 /* Backup.swift */,
+				F0FBFF0129BD229A00E4AC33 /* Practice.swift */,
+				F0FBFF0429BD229A00E4AC33 /* Activity.swift */,
+				F0FBFF0729BD229A00E4AC33 /* TrainingDay.swift */,
+				F097C2E729C31FED006DF4A6 /* WorkInHome.swift */,
 				F0FBFF5C29BD336600E4AC33 /* Settings.swift */,
+				F0B92E7729BFEF5000FBEF60 /* Evolution.xcdatamodeld */,
+				F0FBFF0329BD229A00E4AC33 /* Persistence.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -380,6 +414,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		F0FBFF6829BE577400E4AC33 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				F0FBFEDC29BD227500E4AC33 /* CustomPractice.swift */,
+				F0FBFF6929BE57B800E4AC33 /* AddTrainingDay.swift */,
+				F0FBFF6D29BE5D5300E4AC33 /* AddPractice.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -400,6 +444,9 @@
 				F0FBFF4329BD249C00E4AC33 /* PBXTargetDependency */,
 			);
 			name = Evolution;
+			packageProductDependencies = (
+				F0845C3A29C3F26B008FCAFB /* Introspect */,
+			);
 			productName = Evolution;
 			productReference = F0FBFEB429BD223700E4AC33 /* Evolution.app */;
 			productType = "com.apple.product-type.application";
@@ -462,13 +509,16 @@
 			};
 			buildConfigurationList = F0FBFEAF29BD223700E4AC33 /* Build configuration list for PBXProject "Evolution" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				fr,
 			);
 			mainGroup = F0FBFEAB29BD223700E4AC33;
+			packageReferences = (
+				F0845C3929C3F26B008FCAFB /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = F0FBFEB529BD223700E4AC33 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -520,31 +570,41 @@
 				F0FBFEEB29BD227500E4AC33 /* Charts.swift in Sources */,
 				F0FBFF6229BD3F9300E4AC33 /* Register.swift in Sources */,
 				F0FBFEED29BD227500E4AC33 /* Login.swift in Sources */,
-				F0FBFF0B29BD229A00E4AC33 /* Day.swift in Sources */,
+				F0FBFF0B29BD229A00E4AC33 /* Activity.swift in Sources */,
+				F097C2C529C103BD006DF4A6 /* ObjectID.swift in Sources */,
 				F0FBFEFE29BD227500E4AC33 /* TimerState.swift in Sources */,
 				F0FBFEF129BD227500E4AC33 /* SF.swift in Sources */,
+				F0FBFF6E29BE5D5300E4AC33 /* AddPractice.swift in Sources */,
+				F0B92E7929BFEF5000FBEF60 /* Evolution.xcdatamodeld in Sources */,
+				F097C2D729C14781006DF4A6 /* FirstCreationTrainingDay.swift in Sources */,
+				F0FBFF7C29BE7F7800E4AC33 /* ManyBackup.swift in Sources */,
 				F0FBFF0A29BD229A00E4AC33 /* Persistence.swift in Sources */,
 				F0FBFEF029BD227500E4AC33 /* ContentView.swift in Sources */,
+				F0FBFF8929BF4D2F00E4AC33 /* AllTrainingDayView.swift in Sources */,
 				F0FBFF2529BD237600E4AC33 /* PracticeActivity.intentdefinition in Sources */,
+				F0FBFF6C29BE581400E4AC33 /* MainData.swift in Sources */,
 				F0FBFEFF29BD227500E4AC33 /* Symbols.swift in Sources */,
-				F0FBFF0829BD229A00E4AC33 /* SportPractice.swift in Sources */,
-				F0FBFF0D29BD229A00E4AC33 /* TypeDay.swift in Sources */,
+				F0FBFF0829BD229A00E4AC33 /* Practice.swift in Sources */,
+				F0FBFF0D29BD229A00E4AC33 /* TrainingDay.swift in Sources */,
 				F0FBFEEF29BD227500E4AC33 /* LaunchScreenView.swift in Sources */,
-				F0FBFEEA29BD227500E4AC33 /* AddActivity.swift in Sources */,
+				F0FBFEEA29BD227500E4AC33 /* AddActivites.swift in Sources */,
+				F097C2E929C31FED006DF4A6 /* WorkInHome.swift in Sources */,
 				F0FBFEF729BD227500E4AC33 /* SessionWatchDelegater.swift in Sources */,
 				F0FBFEEE29BD227500E4AC33 /* SettingsView.swift in Sources */,
-				F0FBFEF529BD227500E4AC33 /* AddPractice.swift in Sources */,
-				F0FBFEEC29BD227500E4AC33 /* DaysTraining.swift in Sources */,
-				F0FBFF0929BD229A00E4AC33 /* TypeHome.swift in Sources */,
+				F0FBFEF529BD227500E4AC33 /* CustomPractice.swift in Sources */,
+				F0FBFEEC29BD227500E4AC33 /* AllActivities.swift in Sources */,
 				F0FBFEF929BD227500E4AC33 /* DataPractice.swift in Sources */,
-				F0FBFEC429BD223800E4AC33 /* Evolution.xcdatamodeld in Sources */,
+				F0FBFF7829BE743200E4AC33 /* Backup.swift in Sources */,
 				F0FBFEF429BD227500E4AC33 /* TimeMode.swift in Sources */,
+				F079384329C39C2C00659F5F /* Test.swift in Sources */,
 				F0FBFEFC29BD227500E4AC33 /* Extension.swift in Sources */,
 				F0FBFEFB29BD227500E4AC33 /* ConvertSportPracticeToTarget.swift in Sources */,
 				F0FBFF5E29BD336600E4AC33 /* Settings.swift in Sources */,
 				F0FBFEF629BD227500E4AC33 /* WatchManager.swift in Sources */,
-				F0FBFEF329BD227500E4AC33 /* OrderTypeDay.swift in Sources */,
-				F0FBFEF229BD227500E4AC33 /* Training.swift in Sources */,
+				F0FBFF6629BD5B5600E4AC33 /* AnimatedCheckmarkView.swift in Sources */,
+				F0FBFEF229BD227500E4AC33 /* AllPractices.swift in Sources */,
+				F0FBFF6A29BE57B800E4AC33 /* AddTrainingDay.swift in Sources */,
+				F097C2ED29C34083006DF4A6 /* CustomWorkInHome.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,21 +624,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0FBFF4E29BD25C900E4AC33 /* TypeDay.swift in Sources */,
+				F097C2C929C10FEB006DF4A6 /* ObjectID.swift in Sources */,
+				F0FBFF4E29BD25C900E4AC33 /* TrainingDay.swift in Sources */,
 				F0FBFF5029BD25F200E4AC33 /* Persistence.swift in Sources */,
+				F097C2DE29C23066006DF4A6 /* Evolution.xcdatamodeld in Sources */,
 				F0FBFF3C29BD249B00E4AC33 /* ContentWatchView.swift in Sources */,
+				F097C2DC29C22E06006DF4A6 /* MainData.swift in Sources */,
 				F0FBFF4B29BD255600E4AC33 /* HapticController.swift in Sources */,
-				F0FBFF5429BD261500E4AC33 /* TypeHome.swift in Sources */,
-				F0FBFF4D29BD258F00E4AC33 /* SportPractice.swift in Sources */,
-				F0FBFF5529BD261C00E4AC33 /* Day.swift in Sources */,
+				F0FBFF4D29BD258F00E4AC33 /* Practice.swift in Sources */,
+				F0FBFF5529BD261C00E4AC33 /* Activity.swift in Sources */,
 				F0FBFF5329BD260D00E4AC33 /* TimerState.swift in Sources */,
+				F097C2DD29C22E6A006DF4A6 /* LaunchScreenView.swift in Sources */,
+				F0FBFF7A29BE743B00E4AC33 /* Backup.swift in Sources */,
 				F0FBFF4F29BD25E700E4AC33 /* ConvertSportPracticeToTarget.swift in Sources */,
 				F0FBFF5629BD262700E4AC33 /* Extension.swift in Sources */,
 				F0FBFF6029BD389A00E4AC33 /* Settings.swift in Sources */,
 				F0FBFF5229BD260800E4AC33 /* SessionWatchDelegater.swift in Sources */,
 				F0FBFF3A29BD249B00E4AC33 /* WatchEvolutionApp.swift in Sources */,
 				F0FBFF5129BD25FD00E4AC33 /* DataPractice.swift in Sources */,
-				F0FBFF5729BD27A700E4AC33 /* Evolution.xcdatamodeld in Sources */,
+				F097C2EB29C32011006DF4A6 /* WorkInHome.swift in Sources */,
 				F0FBFF4C29BD258100E4AC33 /* WatchManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -856,7 +920,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WatchEvolution-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = WatchEvolution;
+				INFOPLIST_KEY_CFBundleDisplayName = Evolution;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.blue-moonset.Evolution";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -887,7 +951,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WatchEvolution-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = WatchEvolution;
+				INFOPLIST_KEY_CFBundleDisplayName = Evolution;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.blue-moonset.Evolution";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -947,13 +1011,32 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		F0845C3929C3F26B008FCAFB /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F0845C3A29C3F26B008FCAFB /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0845C3929C3F26B008FCAFB /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin XCVersionGroup section */
-		F0FBFEC229BD223800E4AC33 /* Evolution.xcdatamodeld */ = {
+		F0B92E7729BFEF5000FBEF60 /* Evolution.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				F0FBFEC329BD223800E4AC33 /* Evolution.xcdatamodel */,
+				F0B92E7829BFEF5000FBEF60 /* Evolution.xcdatamodel */,
 			);
-			currentVersion = F0FBFEC329BD223800E4AC33 /* Evolution.xcdatamodel */;
+			currentVersion = F0B92E7829BFEF5000FBEF60 /* Evolution.xcdatamodel */;
 			path = Evolution.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

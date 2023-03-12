@@ -16,7 +16,7 @@ final class WatchManager: ObservableObject {
     let subject = PassthroughSubject<AttributesForWatchConvert?, Never>()
     
     @Published var errorReplyHandler=false
-    @Published var sportPractice: AttributesForWatchConvert?
+    @Published var practice: AttributesForWatchConvert?
     
     init(session: WCSession = .default) {
         self.delegate = SessionWatchDelegater(countSubject: subject)
@@ -26,12 +26,12 @@ final class WatchManager: ObservableObject {
         
         subject
             .receive(on: DispatchQueue.main)
-            .assign(to: &$sportPractice)
+            .assign(to: &$practice)
             
     }
 //    TODO: agir en cas d'erreur dans les envois
-    func sendFromIOS(sportPractice: AttributesForWatch) {
-        session.sendMessage(["iOS":sportPractice.toDictionary()], replyHandler: nil) { error in
+    func sendFromIOS(practice: AttributesForWatch) {
+        session.sendMessage(["iOS":practice.toDictionary()], replyHandler: nil) { error in
             print(error.localizedDescription)
         }
     }
@@ -42,8 +42,8 @@ final class WatchManager: ObservableObject {
             print(error.localizedDescription)
         }
     }
-    func sendFromWatchOS(sportPractice: AttributesForWatchToIOS) {
-        session.sendMessage(["watchOS":sportPractice.toDictionary()], replyHandler: nil) { error in
+    func sendFromWatchOS(practice: AttributesForWatchToIOS) {
+        session.sendMessage(["watchOS":practice.toDictionary()], replyHandler: nil) { error in
             print(error.localizedDescription)
         }
     }

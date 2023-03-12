@@ -46,13 +46,13 @@
 //import CoreData
 //struct PracticeActivityLiveActivity_Previews: PreviewProvider {
 //    static let viewContext=PersistenceController.preview.container.viewContext
-//    static let fetchRequest: NSFetchRequest<TypeDay> = TypeDay.fetchRequest()
+//    static let fetchRequest: NSFetchRequest<TrainingDay> = TrainingDay.fetchRequest()
 //    static var timerState:TimerState = .shared
 //    static let attributes = PracticeActivityAttributes()
 //    
 //    static var contentState:PracticeActivityAttributes.ContentState?=PracticeActivityAttributes.ContentState(time: PracticeActivityLiveActivity_Previews.timerState.timer!,isOn: true,index: PracticeActivityLiveActivity_Previews.timerState.timerState!.index, practices: convertPractices(practices: PracticeActivityLiveActivity_Previews.timerState.timerState!.practices))
 //    static var previews: some View {
-//        if let typeDay = try? viewContext.fetch(fetchRequest).first, save(typeDay){
+//        if let trainingDay = try? viewContext.fetch(fetchRequest).first, save(trainingDay){
 //            attributes
 //                .previewContext(contentState!, viewKind: .dynamicIsland(.compact))
 //                .previewDisplayName("Island Compact")
@@ -67,8 +67,8 @@
 //                .previewDisplayName("Notification")
 //        }
 //    }
-//    static func save(_ typeDay:TypeDay)->Bool{
-//        timerState.timerState=(practices:typeDay.allSportPractice(),index:0)
+//    static func save(_ trainingDay:TrainingDay)->Bool{
+//        timerState.timerState=(practices:trainingDay.allPractice(),index:0)
 //        timerState.isOn=true
 //        timerState.timer=Date.now...Date().addingTimeInterval(TimeInterval(90))
 //        return true

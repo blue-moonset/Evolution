@@ -21,27 +21,27 @@ struct ContentWatchView: View {
     var body: some View {
         
         Group{
-            if let sportPractice=watchManager.sportPractice{
+            if let practice=watchManager.practice{
                 TabView(selection: $selection){
-                    ForEach(Array(sportPractice.practices.enumerated()), id: \.offset) { (index,item) in
-                        ItemSportPractice(practice:item,globalData:sportPractice)
+                    ForEach(Array(practice.practices.enumerated()), id: \.offset) { (index,item) in
+                        ItemPractice(practice:item,globalData:practice)
                             .tag(index)
                     }
                 }.tabViewStyle(.carousel)
                     .edgesIgnoringSafeArea(.all)
                     .onReceive(timerForOnReceive) { input in
-                        if watchManager.sportPractice!.timer != nil{
-                            watchManager.timerFinish(timer: watchManager.sportPractice!.timer!)
+                        if watchManager.practice!.timer != nil{
+                            watchManager.timerFinish(timer: watchManager.practice!.timer!)
                         }
-                    }.onChange(of: sportPractice.id){ new in
-                        watchManager.sendFromWatchOS(sportPractice: AttributesForWatchToIOS(timer:  watchManager.sportPractice!.timer, isOn: watchManager.sportPractice!.isOn, totalAccumulatedTime: watchManager.sportPractice!.totalAccumulatedTime, index: watchManager.sportPractice!.index))
+                    }.onChange(of: practice.id){ new in
+                        watchManager.sendFromWatchOS(practice: AttributesForWatchToIOS(timer:  watchManager.practice!.timer, isOn: watchManager.practice!.isOn, totalAccumulatedTime: watchManager.practice!.totalAccumulatedTime, index: watchManager.practice!.index))
                     }.onChange(of: practicesDone){ new in
                         watchManager.saveFromWatchOS(practicesDone: new)
-                    }.onChange(of: sportPractice.index){ new in
+                    }.onChange(of: practice.index){ new in
                         withAnimation(){
                             selection=new
                         }
-                    }.onChange(of: watchManager.sportPractice!.isOn){ new in
+                    }.onChange(of: watchManager.practice!.isOn){ new in
                         if new == true{
                             hapticsEngine.startSessionIfNeeded()
                         }else{
@@ -49,7 +49,7 @@ struct ContentWatchView: View {
                         }
                     }.onAppear{
                         withAnimation(){
-                            selection=sportPractice.index
+                            selection=practice.index
                         }
                     }
             }else{
@@ -58,13 +58,14 @@ struct ContentWatchView: View {
         }
     }
     @ViewBuilder
-    func ItemSportPractice(practice: SportPracticeForWatch,globalData:AttributesForWatchConvert)-> some View{
+    func ItemPractice(practice: PracticeForWatch,globalData:AttributesForWatchConvert)-> some View{
         VStack(spacing: 0){
             Button(action: {
+                WKInterfaceDevice.current().play(.click)
                 watchManager.reset(index: selection)
             }) {
                 VStack(spacing: 0){
-                    Text(practice.title.capitalizedSentence)
+                    Text(practice.name.capitalizedSentence)
                         .fontWeight(.bold)
                         .font(.title3)
                         .lineLimit(2)
@@ -111,6 +112,7 @@ struct ContentWatchView: View {
             Spacer(minLength: 5)
             HStack{
                 Button(action: {
+                    WKInterfaceDevice.current().play(.click)
                     if practice.id == globalData.practices[globalData.index].id{
                         if globalData.isOn{
                             watchManager.pause()
@@ -121,19 +123,27 @@ struct ContentWatchView: View {
                         watchManager.resetAndPlay(index: selection)
                     }
                 }) {
-                    if practice.id == globalData.practices[globalData.index].id{
-                        Image(systemName: globalData.isOn ? "pause.circle.fill":"play.circle.fill")
-                    }else{
-                        Image(systemName: "play.circle.fill")
-                        
+                    Group{
+                        if practice.id == globalData.practices[globalData.index].id{
+                            Image(systemName: globalData.isOn ? "pause.circle.fill":"play.circle.fill")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50,height: 50)
+                        }else{
+                            Image(systemName: "play.circle.fill")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50,height: 50)
+                        }
                     }
                 }.buttonStyle(ScaleButtonStyle())
                     .foregroundStyle(.white,.blue)
                     .fontWeight(.bold)
-                    .font(.title)
+                    
                 
                 Spacer(minLength: 5)
                 Button(action: {
+                    WKInterfaceDevice.current().play(.click)
                     if !practicesDone.contains(where: {$0 == practice.id}){
                         practicesDone.append(practice.id)
                     }else{
@@ -160,19 +170,19 @@ struct ContentWatchView: View {
                             }
                         }.background{
                             ZStack {
-                                Color.white.frame(width: 12,height: 20)
+                                Color.white.frame(width: 12,height: 23)
                                     .rotationEffect(.degrees(30))
-                                    .offset(y:-3)
-                                Color.white.frame(width: 9,height: 9)
-                                    .offset(x:12, y:7.5)
+                                    .offset(x:-2,y:-3)
+                                Color.white.frame(width: 9,height: 10)
+                                    .offset(x:15, y:9.5)
                             }
                         }
                     }
                 }.buttonStyle(ScaleButtonStyle())
                     .fontWeight(.bold)
-                    .font(.title2)
+                    .font(.title)
                 
-            }.padding(.horizontal,10)
+            }.padding(.horizontal,40)
                 .padding(.bottom,10)
             
             
@@ -181,21 +191,21 @@ struct ContentWatchView: View {
         
     }
     
-    func doneErrorWhenSave(_ practice: SportPracticeForWatch)->Bool{
+    func doneErrorWhenSave(_ practice: PracticeForWatch)->Bool{
         if practicesDone.contains(where: {$0 == practice.id}) && !practice.done{
             return true
         }else{
             return false
         }
     }
-    func timeInString(practice: SportPracticeForWatch) -> String {
-        let time: Double = Double(practice.repos) - watchManager.sportPractice!.totalAccumulatedTime
+    func timeInString(practice: PracticeForWatch) -> String {
+        let time: Double = Double(practice.repos) - watchManager.practice!.totalAccumulatedTime
         
         let minutes = Int(time / 60)
         let seconds = time.truncatingRemainder(dividingBy: 60)
         return String(format: "%01d:%02d", Int(minutes), Int(seconds))
     }
-    func timeInStringFix(practice: SportPracticeForWatch) -> String {
+    func timeInStringFix(practice: PracticeForWatch) -> String {
         let time: Double = Double(practice.repos)
         
         let minutes = Int(time / 60)
@@ -208,27 +218,26 @@ struct ContentWatchView_Previews: PreviewProvider {
     static var watchManager : WatchManager = .shared
     static let viewContext=PersistenceController.preview.container.viewContext
     static var timerState:TimerState = .shared
-    static let fetchRequest: NSFetchRequest<TypeDay> = TypeDay.fetchRequest()
+    static let fetchRequest: NSFetchRequest<TrainingDay> = TrainingDay.fetchRequest()
     static var previews: some View {
-        if let typeDay = try? viewContext.fetch(fetchRequest).first, save(typeDay){
+        if let trainingDay = try? viewContext.fetch(fetchRequest).first, save(trainingDay){
             ContentWatchView(watchManager:watchManager)
             
         }
-        
     }
-    static func save(_ typeDay:TypeDay)->Bool{
-        timerState.timerState=(practices:typeDay.allSportPractice(),index:0)
+    static func save(_ trainingDay:TrainingDay)->Bool{
+        timerState.timerState=(practices:trainingDay.allPractice(),index:0)
         timerState.isOn=true
         timerState.timer=Date.now...Date().addingTimeInterval(TimeInterval(90))
         
-        let sportPractice = AttributesForWatchConvert(timer: timerState.timer!, isOn: timerState.isOn,totalAccumulatedTime: timerState.totalAccumulatedTime, practices: convert(timerState.timerState!.practices),index: timerState.timerState!.index)
-        watchManager.subject.send(sportPractice)
+        let practice = AttributesForWatchConvert(timer: timerState.timer!, isOn: timerState.isOn,totalAccumulatedTime: timerState.totalAccumulatedTime, practices: convert(timerState.timerState!.practices),index: timerState.timerState!.index)
+        watchManager.subject.send(practice)
         return true
     }
-    static func convert(_ sportPractice:[SportPractice])->[SportPracticeForWatch] {
-        var dic=[SportPracticeForWatch]()
-        for practice in sportPractice {
-            dic.append(SportPracticeForWatch(repetitions: practice.repetitions ?? "", title: practice.title, done: practice.done, repos: Int(practice.repos), id: practice.id))
+    static func convert(_ practice:[Practice])->[PracticeForWatch] {
+        var dic=[PracticeForWatch]()
+        for practice in practice {
+            dic.append(PracticeForWatch(repetitions: practice.convertRepetitionToString(), name: practice.name, done: practice.done, repos: Int(practice.repos), id: practice.id))
         }
         return dic
     }
@@ -236,44 +245,44 @@ struct ContentWatchView_Previews: PreviewProvider {
 private extension WatchManager{
     
     func timerFinish(timer:ClosedRange<Date>){
-        if sportPractice!.totalAccumulatedTime+(-Double(sportPractice!.timer!.lowerBound.timeIntervalSince(Date()))) > Double(sportPractice!.practices[sportPractice!.index].repos){
+        if practice!.totalAccumulatedTime+(-Double(practice!.timer!.lowerBound.timeIntervalSince(Date()))) > Double(practice!.practices[practice!.index].repos){
+            print("tiemrFinish")
             HapticsEngine.shared.tick()
             reset(index:nil)
         }
     }
     func pause(){
-        sportPractice!.isOn = false
-        if sportPractice!.timer != nil{
-            sportPractice!.totalAccumulatedTime=sportPractice!.totalAccumulatedTime + (-Double(sportPractice!.timer!.lowerBound.timeIntervalSince(Date())))
+        practice!.isOn = false
+        if practice!.timer != nil{
+            practice!.totalAccumulatedTime=practice!.totalAccumulatedTime + (-Double(practice!.timer!.lowerBound.timeIntervalSince(Date())))
         }else{
-            sportPractice!.totalAccumulatedTime=0
+            practice!.totalAccumulatedTime=0
         }
-        sportPractice!.timer=nil
-        sportPractice!.id = UUID()
+        practice!.timer=nil
+        practice!.id = UUID()
     }
     func play(){
-        let totalTime=Int(Double(sportPractice!.practices[sportPractice!.index].repos)-sportPractice!.totalAccumulatedTime)
-        sportPractice!.isOn = true
-        sportPractice!.timer=Date.now...Date().addingTimeInterval(TimeInterval(totalTime))
-        sportPractice!.id = UUID()
+        let totalTime=Int(Double(practice!.practices[practice!.index].repos)-practice!.totalAccumulatedTime)
+        practice!.isOn = true
+        practice!.timer=Date.now...Date().addingTimeInterval(TimeInterval(totalTime))
+        practice!.id = UUID()
     }
     func reset(index:Int?){
-        //        TODO: erreur si le nombre de l'index change
-        sportPractice!.isOn = false
-        sportPractice!.timer=nil
-        sportPractice!.totalAccumulatedTime=0
+        practice!.isOn = false
+        practice!.timer=nil
+        practice!.totalAccumulatedTime=0
         if let index=index{
-            sportPractice!.index = index
+            practice!.index = index
         }
-        sportPractice!.id = UUID()
+        practice!.id = UUID()
     }
     func resetAndPlay(index:Int){
-        //        TODO: erreur si le nombre de l'index change
-        let totalTime=Int(sportPractice!.practices[sportPractice!.index].repos)
-        sportPractice!.isOn = true
-        sportPractice!.timer=Date.now...Date().addingTimeInterval(TimeInterval(totalTime))
-        sportPractice!.id = UUID()
-        sportPractice!.index = index
-        sportPractice!.id = UUID()
+        let totalTime=Int(practice!.practices[index].repos)
+        practice!.totalAccumulatedTime=0
+        practice!.isOn = true
+        practice!.timer=Date.now...Date().addingTimeInterval(TimeInterval(totalTime))
+        practice!.id = UUID()
+        practice!.index = index
+        practice!.id = UUID()
     }
 }

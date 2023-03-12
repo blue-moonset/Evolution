@@ -9,9 +9,11 @@ import Foundation
 enum LaunchScreenStep {
     case launch
     case register
+    case creationTrainingDay
     case finished
 }
 final class LaunchScreenStateManager: ObservableObject {
+    static var shared=LaunchScreenStateManager()
     @MainActor
     @Published private(set) var state: LaunchScreenStep = .launch
     
@@ -32,6 +34,10 @@ final class LaunchScreenStateManager: ObservableObject {
     @MainActor
     func dismissWithoutTime() {
         self.state = .finished
+    }
+    @MainActor
+    func creationTrainingDay() {
+        self.state = .creationTrainingDay
     }
     @MainActor
     func register() {

@@ -15,10 +15,10 @@
 //        var pauseTime:Int?
 //        var isOn:Bool
 //        var index:Int
-//        var practices:[SportPracticeForLiveActivity]
+//        var practices:[PracticeForLiveActivity]
 //    }
 //
 //    // Fixed non-changing properties about your activity go here!
 ////    let repetitions: String
-////    let title: String
+////    let name: String
 //}

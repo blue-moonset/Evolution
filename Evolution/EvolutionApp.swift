@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CloudKit
 
 @main
 struct EvolutionApp: App {
@@ -13,59 +14,62 @@ struct EvolutionApp: App {
     var body: some Scene {
         WindowGroup {
             Start()
+                .environment(\.colorScheme, .light)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
-    
 }
 struct Start: View {
-    @StateObject var launchScreenState = LaunchScreenStateManager()
+    @StateObject var launchScreenState :LaunchScreenStateManager = .shared
+
     @FetchRequest(sortDescriptors: [
-    ])var settings:FetchedResults<Settings>
+        SortDescriptor(\.date)
+    ])var backup:FetchedResults<Backup>
+    @StateObject var mainData:MainData = .shared
     @Environment(\.managedObjectContext) private var viewContext
+    @State var alertDetails=true
     var body: some View {
         ZStack {
-            if settings.count != 0{
+            if mainData.mainBackup != nil{
                 ContentView()
             }
             if launchScreenState.state == .launch {
                 LaunchScreenView()
+            }else if launchScreenState.state == .creationTrainingDay {
+                FirstCreationTrainingDay()
             }else if launchScreenState.state == .register {
-                Register(launchScreenState:launchScreenState)
+                Register()
             }
         }.preferredColorScheme(.light)
-            .onChange(of: settings.first?.register){ new in
-                if new == false{
-                    launchScreenState.register()
-                }
-            }
+            .overlay{ManyBackup()}
             .onAppear{
-//                for s in settings{
-//                    viewContext.delete(s)
-//                }
-//                do {
-//                    try viewContext.save()
-//                } catch {
-//                    let nsError = error as NSError
-//                    fatalError("Unresolved error \(nsError.localizedDescription),\(String(describing: nsError.localizedFailureReason)), \(nsError.userInfo)")
-//                }
-                if let first=settings.first, first.register{
+                CKContainer.default().accountStatus { accountStatus, error in
+                    DispatchQueue.main.async{
+                        mainData.accountStatusICloud = accountStatus
+                    }
+                }
+                mainData.mainBackup = mainData.fetchMainBackup(fetch: backup)
+
+                if let register=mainData.mainBackup?.settings?.register, register{
                         launchScreenState.dismiss()
                 }else{
                     launchScreenState.dismissForRegister()
                 }
+            }.onChange(of: backup.count){ new in
+                mainData.mainBackup = mainData.fetchMainBackup(fetch: backup)
+                if mainData.mainBackup == nil{
+                    launchScreenState.register()
+                }
+            }.onChange(of: mainData.mainBackup?.settings?.register){ new in
+                if new == false{
+                    launchScreenState.register()
+                }
             }
     }
 }
-extension Date: RawRepresentable {
-    private static let formatter = ISO8601DateFormatter()
-    
-    public var rawValue: String {
-        Date.formatter.string(from: self)
-    }
-    
-    public init?(rawValue: String) {
-        self = Date.formatter.date(from: rawValue) ?? Date()
+struct Start_Previews: PreviewProvider {
+    static var previews: some View {
+        Start()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
-

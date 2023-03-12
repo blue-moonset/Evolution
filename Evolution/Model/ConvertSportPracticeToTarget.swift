@@ -1,5 +1,5 @@
 //
-//  SportPracticeForLiveActivity.swift
+//  PracticeForLiveActivity.swift
 //  Evolution
 //
 //  Created by Samy Tahri-Dupre on 20/02/2023.
@@ -7,21 +7,21 @@
 
 import Foundation
 
-public struct SportPracticeForLiveActivity: Codable,Hashable {
+public struct PracticeForLiveActivity: Codable,Hashable {
 
     public var repetitions: String
-    public var title: String
+    public var name: String
     public var repos: Int
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(repetitions)
-        hasher.combine(title)
+        hasher.combine(name)
         hasher.combine(repos)
     }
     
-    public static func == (lhs: SportPracticeForLiveActivity, rhs: SportPracticeForLiveActivity) -> Bool {
+    public static func == (lhs: PracticeForLiveActivity, rhs: PracticeForLiveActivity) -> Bool {
         return lhs.repetitions == rhs.repetitions &&
-            lhs.title == rhs.title && lhs.repos == rhs.repos
+            lhs.name == rhs.name && lhs.repos == rhs.repos
     }
 }
 public struct AttributesForWatchConvert {
@@ -29,7 +29,7 @@ public struct AttributesForWatchConvert {
     public var timer:ClosedRange<Date>?
     public var isOn: Bool
     public var totalAccumulatedTime:Double
-    public var practices:[SportPracticeForWatch]
+    public var practices:[PracticeForWatch]
     public var index: Int
     
     public var id=UUID()
@@ -76,10 +76,10 @@ public struct AttributesForWatch {
     }
     
 }
-public struct SportPracticeForWatch {
+public struct PracticeForWatch {
 
     public var repetitions: String
-    public var title: String
+    public var name: String
     public var done: Bool
     public var repos: Int
     public var id : UUID
@@ -87,7 +87,7 @@ public struct SportPracticeForWatch {
     func toDictionary() -> [String: Any] {
         var dict = [String: Any]()
         dict["repetitions"] = repetitions
-        dict["title"] = title
+        dict["name"] = name
         dict["done"] = done
         dict["repos"] = repos
         dict["id"] = id.uuidString
@@ -105,10 +105,11 @@ public func stringToDate(_ string:String)->Date?{
     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     return formatter.date(from: string)!
 }
-public func convertSportPractice(_ sportPractice:[SportPractice])->[String:[String: Any]] {
+public func convertPractice(_ practice:[Practice])->[String:[String: Any]] {
     var dic=[String:[String: Any]]()
-    for (index,practice) in Array(sportPractice.enumerated()) {
-        dic["\(index)"]=SportPracticeForWatch(repetitions: practice.repetitions ?? "", title: practice.title, done: practice.done, repos: Int(practice.repos), id: practice.id).toDictionary()
+    for (index,practice) in Array(practice.enumerated()) {
+        dic["\(index)"]=PracticeForWatch(repetitions: practice.convertRepetitionToString(), name: practice.name, done: practice.done, repos: Int(practice.repos), id: practice.id).toDictionary()
     }
     return dic
 }
+

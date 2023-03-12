@@ -49,7 +49,7 @@ struct SF: View {
                         }.padding(.top,10)
                     }.frame(width: UIScreen.main.bounds.width)
                 }
-            }.frame(height: 300)
+            }.frame(height: 350)
         }
     }
 }

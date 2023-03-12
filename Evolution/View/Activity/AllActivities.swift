@@ -1,33 +1,34 @@
 //
-//  DaysTraining.swift
+//  AllActivities.swift
 //  Evolution
 //
 //  Created by Samy Tahri-Dupre on 23/01/2023.
 //
 
 import SwiftUI
+import CoreData
 
-struct DaysTraining: View {
-    @FetchRequest(sortDescriptors: [
-    ])var settings:FetchedResults<Settings>
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Day.dateOfDay, ascending: false)])
-    private var days: FetchedResults<Day>
-    @Binding var indexValue:Int?
-    @Binding var dateSelect:Date
-    @Binding var isPresented:Bool
+struct AllActivities: View {
+   
     @State var month=Date()
-    @FetchRequest(sortDescriptors: [
-        SortDescriptor(\.index)
-    ])var typeDay:FetchedResults<TypeDay>
+    @StateObject var mainData:MainData = .shared
+    
     var body: some View {
         ForEach(Array(divideIntoWeeks().enumerated()),id: \.offset) { index,week in
             if  index==0 || Calendar.current.component(.month, from: week[0]) ==  Calendar.current.component(.month, from: month) || showAll(){
                 Section(header: Text((index==0 ? "Cette semaine":"Semaine du \(itemFormatterWhithoutDayName(week.last!))"))) {
-                    ForEach(week, id: \.self) { day in
-                        OneDay(date:day)
+                    ForEach(Array(week.enumerated()), id: \.offset) { (index,day) in
+                        if let edge=showLine(first: 0, last: week.count-1, item: index){
+                            OneActivity(date:day)
+                                .listRowBackground(Back(top: day==week.first!, bottom: day==week.last!))
+                                .listRowSeparator(.hidden, edges: edge)
+                        }else{
+                            OneActivity(date:day)
+                                .listRowBackground(Back(top: day==week.first!, bottom: day==week.last!))
+                        }
                     }
-                }
+                }.listRowInsets(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                   
             }
             if index==0 && !showAll(){
                 ScrollView (.horizontal){
@@ -50,8 +51,8 @@ struct DaysTraining: View {
                         .background(.white)
                     .clipShape(RoundedCorner())
                     .frame(minWidth: UIScreen.main.bounds.width-40)
-                }.frame(width: UIScreen.main.bounds.width-40)
-                    .listRowBackground(Color(.secondarySystemBackground))
+                }.listRowBackground(Color(.secondarySystemBackground))
+                .listRowSeparator(.hidden, edges: .all)
             }
         }
     }
@@ -63,8 +64,8 @@ struct DaysTraining: View {
         }
     }
     @ViewBuilder
-    func OneDay(date:Date)->some View{
-        if let indexDay=getDay(date: date, results: days){
+    func OneActivity(date:Date)->some View{
+        if let indexActivity=getActivity(date: date, results: mainData.mainBackup!.allActivity()){
             
             VStack (spacing: 0){
                 HStack (spacing: 0){
@@ -72,13 +73,13 @@ struct DaysTraining: View {
                         .font(.footnote)
                         .fontWeight(.light)
                         .foregroundColor(.gray)
-                        .padding(.top,5)
+                        .padding(.top, !mainData.mainBackup!.allActivity()[indexActivity].clubRepos ? 5:2)
                     Spacer()
                 }
-                if !days[indexDay].clubRepos {
+                if !mainData.mainBackup!.allActivity()[indexActivity].clubRepos {
                     HStack (spacing: 5){
 
-                        let result=points(days[indexDay])
+                        let result=points(mainData.mainBackup!.allActivity()[indexActivity])
                         HStack (spacing: 5){
                             Image(systemName: "dumbbell.fill")
                                 .font(.footnote)
@@ -107,7 +108,7 @@ struct DaysTraining: View {
                         .background(isNegative(result.home).opacity(0.18))
                         .clipShape(RoundedCorner())
                         .padding(.trailing,10)
-                        ForEach(practices(indexDay: indexDay),id:\.self) { item in
+                        ForEach(practices(indexDay: indexActivity),id:\.self) { item in
                             HStack (spacing: 5){
                                 Image(systemName: item.icone)
                                     .font(.caption)
@@ -154,23 +155,25 @@ struct DaysTraining: View {
             .swipeActions{
                 Button(action: {
                     
-                    indexValue=indexDay
-                    isPresented=true
+                    mainData.indexValue=indexActivity
+                    mainData.presentedSheet=true
+                    mainData.typeSheet = .activity
                 }){
                     Image(systemName: "square.and.pencil")
                 }.tint(.orange)
             }
         }else{
             Button(action: {
-                dateSelect=date
-                isPresented=true
+                mainData.dateSelect=date
+                mainData.presentedSheet=true
+                mainData.typeSheet = .activity
             }){
                 HStack {
                     Text(itemFormatter(date))
                         .font(.footnote)
                         .fontWeight(.light)
                         .foregroundColor(.gray)
-                        .padding(.top,5)
+                        .padding(.top,2)
                     Spacer()
                     Text("Enregistrer")
                         .font(.footnote)
@@ -183,18 +186,18 @@ struct DaysTraining: View {
             }
         }
     }
-    func practices(indexDay:Int)->[TypeDay]{
-        var allTypeDay:[TypeDay]=[]
-        for day in days[indexDay].idTypeDay{
-            if let typeDay=typeDay.first(where: {$0.id == day}){
-                allTypeDay.append(typeDay)
+    func practices(indexDay:Int)->[TrainingDay]{
+        var allTrainingDay:[TrainingDay]=[]
+        for activity in mainData.mainBackup!.allActivity()[indexDay].allIdTrainingDay(){
+            if let trainingDay=mainData.mainBackup!.allTrainingDay().first(where: {$0.id == activity.id}){
+                allTrainingDay.append(trainingDay)
             }
         }
-        return allTypeDay
+        return allTrainingDay
     }
     func monthFollowingDate() -> [Date] {
         var months = [Date]()
-        var nextDay = settings.first!.firstDay!
+        var nextDay = mainData.mainBackup!.settings!.firstDay
         while nextDay <= Date() {
             if !months.contains(where: {
                 Calendar.current.component(.month, from: $0) == Calendar.current.component(.month, from: nextDay)
@@ -214,7 +217,7 @@ struct DaysTraining: View {
     }
     func daysFollowingDate() -> [Date] {
         var days = [Date]()
-        var nextDay = Calendar.current.date(bySettingHour: 0, minute: 0, second: 1, of: settings.first!.firstDay!)!
+        var nextDay = Calendar.current.date(bySettingHour: 0, minute: 0, second: 1, of: mainData.mainBackup!.settings!.firstDay)!
         
         while nextDay <= Date() {
             days.append(nextDay)
@@ -242,18 +245,18 @@ struct DaysTraining: View {
     }
 
     
-    func points(_ day:Day) -> (club:Int,home:Int,total:Int) {
+    func points(_ activity:Activity) -> (club:Int,home:Int,total:Int) {
         var result:(club:Int,home:Int,total:Int)=(club:0,home:0,total:0)
-        if day.club==true{
-            result.club = Int(settings.first!.clubPointsGo)
+        if activity.club==true{
+            result.club = Int(mainData.mainBackup!.settings!.clubPointsGo)
         }else{
-            result.club = Int(settings.first!.clubPointsNone)
+            result.club = Int(mainData.mainBackup!.settings!.clubPointsNone)
         }
         result.total += result.club
-        if day.home==true{
-            result.home = Int(settings.first!.homePointsGo)
+        if activity.home==true{
+            result.home = Int(mainData.mainBackup!.settings!.homePointsGo)
         }else{
-            result.home = Int(settings.first!.homePointsNone)
+            result.home = Int(mainData.mainBackup!.settings!.homePointsNone)
         }
         result.total += result.home
         return result
@@ -266,36 +269,25 @@ struct DaysTraining: View {
         }
     }
 }
-func itemFormatterWhithoutDayName(_ date:Date)->String{
-    let formatter = DateFormatter()
-    formatter.dateFormat = "d MMMM"
-    formatter.locale = Locale(identifier: "fr")
-    return formatter.string(from: date).capitalized
-}
-func itemFormatterMonth(_ date:Date)->String{
-    let formatter = DateFormatter()
-    formatter.dateFormat = "MMMM"
-    formatter.locale = Locale(identifier: "fr")
-    return formatter.string(from: date).capitalized
-}
-struct DaysTraining_Previews: PreviewProvider {
+
+struct AllActivities_Previews: PreviewProvider {
+    static var mainData:MainData = .shared
+    static let viewContext=PersistenceController.preview.container.viewContext
+    
+    static let fetchRequest: NSFetchRequest<Backup> = Backup.fetchRequest()
     static var previews: some View {
-        List {
-            DaysTraining(indexValue: .constant(nil), dateSelect: .constant(Date()), isPresented: .constant(false))
-                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        if let backup = try? viewContext.fetch(fetchRequest).first, save(backup){
+            List {
+                AllActivities()
+                    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            }.listStyle(.grouped)
+                .scrollContentBackground(.hidden)
+                .background(Color(.secondarySystemBackground))
         }
     }
-}
-extension Date {
-    func startOfWeek() -> Date {
-        let calendar = Calendar.current
-        let weekday = calendar.component(.weekday, from: self)
-        var startOfWeek: Date
-        if weekday == 1 {
-            startOfWeek = calendar.date(byAdding: .day, value: -6, to: self)!
-        } else {
-            startOfWeek = calendar.date(byAdding: .day, value: -weekday + 2, to: self)!
-        }
-        return startOfWeek
+    static func save(_ backup:Backup)->Bool{
+        mainData.mainBackup=backup
+        return true
     }
 }
+

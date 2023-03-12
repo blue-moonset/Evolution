@@ -15,7 +15,7 @@
 //    var body: some View {
 //        VStack (spacing:0){
 //            Link(destination: URL(string:"evolution://reset")!) {
-//                Text(state.practices[state.index].title)
+//                Text(state.practices[state.index].name)
 //                    .fontWeight(.semibold)
 //                    .font(.title2)
 //                    .lineLimit(1)
@@ -100,20 +100,20 @@
 //import CoreData
 //struct PracticeActivityView_Previews: PreviewProvider {
 //    static let viewContext=PersistenceController.preview.container.viewContext
-//    static let fetchRequest: NSFetchRequest<TypeDay> = TypeDay.fetchRequest()
+//    static let fetchRequest: NSFetchRequest<TrainingDay> = TrainingDay.fetchRequest()
 //    static var timerState:TimerState = .shared
 //    static let attributes = PracticeActivityAttributes()
 //    
 //    static var contentState:PracticeActivityAttributes.ContentState?=PracticeActivityAttributes.ContentState(time: PracticeActivityView_Previews.timerState.timer!,isOn: true,index: PracticeActivityView_Previews.timerState.timerState!.index, practices: convertPractices(practices: PracticeActivityView_Previews.timerState.timerState!.practices))
 //    static var previews: some View {
-//        if let typeDay = try? viewContext.fetch(fetchRequest).first, save(typeDay){
+//        if let trainingDay = try? viewContext.fetch(fetchRequest).first, save(trainingDay){
 //            attributes
 //                .previewContext(contentState!, viewKind: .content)
 //                .previewDisplayName("Notification")
 //        }
 //    }
-//    static func save(_ typeDay:TypeDay)->Bool{
-//        timerState.timerState=(practices:typeDay.allSportPractice(),index:0)
+//    static func save(_ trainingDay:TrainingDay)->Bool{
+//        timerState.timerState=(practices:trainingDay.allPractice(),index:0)
 //        timerState.isOn=true
 //        timerState.timer=Date.now...Date().addingTimeInterval(TimeInterval(90))
 //        return true

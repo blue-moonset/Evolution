@@ -14,82 +14,121 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
-        let settings=Settings(context: viewContext)
-        let isoDateFirstDay = "2023-01-26"
+        let backup=Backup(context: viewContext)
         
+        let isoDateFirstDay = "2023-02-14"
         let dateFormatterFirstDay = DateFormatter()
         dateFormatterFirstDay.dateFormat = "yyyy-MM-dd"
         let firstDay=dateFormatterFirstDay.date(from:isoDateFirstDay)
+        backup.date=firstDay!
+        
+        let settings=Settings(context: viewContext)
         settings.firstDay=firstDay!
         settings.dayLastDeleteDone=Date()
         settings.homePointsGo = 3
         settings.homePointsNone = -4
         settings.clubPointsGo = 10
         settings.clubPointsNone = -6
-        settings.register=true
-       
-        var allTypeDays=[TypeDay]()
-        for (index,dayDefault) in dataPractice.typeDay.enumerated(){
-            let typeDay=TypeDay(context: viewContext)
-            typeDay.index=Int16(index)
-            typeDay.id=dayDefault.idType
-            typeDay.active=true
-            typeDay.icone=dayDefault.symbole
-            typeDay.name=dayDefault.name
+        settings.register=false
+        backup.settings=settings
+        
+        let archive=TrainingDay(context: viewContext)
+        archive.id=UUID()
+        archive.active=false
+        archive.icone=""
+        archive.name="gibjug-8fizxo-byJvov-archive"
+        
+        for (index,practice) in Array(dataPractice.dataPractice.enumerated()) {
+            let newItem = Practice(context: viewContext)
+            newItem.id=UUID()
+            newItem.index=Int16(index)
+            newItem.name=practice.name
+            newItem.lien=practice.lien
+            newItem.lengthRepetition=Int16(practice.lengthRepetition)
+            newItem.maxLengthRepetition=Int16(practice.maxLengthRepetition)
+            newItem.numberRepetitions=Int16(practice.numberRepetitions)
+            newItem.repetitionInsteadMinute=practice.repetitionInsteadMinute
+            newItem.repos=Int16(practice.repos)
+            newItem.done=false
+            newItem.active=true
+            archive.addToPractice(newItem)
+        }
+        backup.addToTrainingDay(archive)
+        
+        
+        
+        for work in dataPractice.workInHome{
+            let workInHome=WorkInHome(context: viewContext)
+            workInHome.id=work.id
+            workInHome.active=work.active
+            workInHome.name=work.name
+            backup.addToWorkInHome(workInHome)
+        }
+        
+        var allTrainingDays=[TrainingDay]()
+        for (index,dayDefault) in dataPractice.trainingDay.enumerated(){
+            let trainingDay=TrainingDay(context: viewContext)
+            trainingDay.index=Int16(index)
+            trainingDay.id=dayDefault.idType
+            trainingDay.active=true
+            trainingDay.icone=dayDefault.symbole
+            trainingDay.name=dayDefault.name
             
-            for (index,practice) in Array(dataPractice.dataPractice.filter({$0.idType == typeDay.id}).enumerated()) {
-                let newItem = SportPractice(context: viewContext)
+            for (index,practice) in Array(dataPractice.dataPractice.filter({$0.idType == trainingDay.id}).enumerated()) {
+                let newItem = Practice(context: viewContext)
                 newItem.id=UUID()
                 newItem.index=Int16(index)
-                newItem.title=practice.title
+                newItem.name=practice.name
                 newItem.lien=practice.lien
-                newItem.repetitions=practice.repetitions
+                newItem.lengthRepetition=Int16(practice.lengthRepetition)
+                newItem.maxLengthRepetition=Int16(practice.maxLengthRepetition)
+                newItem.numberRepetitions=Int16(practice.numberRepetitions)
+                newItem.repetitionInsteadMinute=practice.repetitionInsteadMinute
                 newItem.repos=Int16(practice.repos)
                 newItem.done=false
                 newItem.active=true
-                typeDay.addToSportPractice(newItem)
+                trainingDay.addToPractice(newItem)
             }
-            allTypeDays.append(typeDay)
+            allTrainingDays.append(trainingDay)
+            backup.addToTrainingDay(trainingDay)
         }
         
-        for i in 0..<7 {
-            var isoDate = "2023-01-\(16+i)"
+        for i in 0..<10 {
+            var isoDate = "2023-03-\(01+i)"
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             var d=dateFormatter.date(from:isoDate)
-            day(date: d!)
+            activity(date: d!)
         }
-        var isoDate = "2023-01-\(20)"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        var d=dateFormatter.date(from:isoDate)
-        day(date: d!)
         
-        func day(date:Date){
-            let day = Day(context: viewContext)
-            day.dateOfDay=date
-            day.club=Bool.random()
+        func activity(date:Date){
+            let activity = Activity(context: viewContext)
+            activity.date=date
+            activity.club=Bool.random()
+            activity.home=Bool.random()
             
-            day.home=Bool.random()
-            if day.home{
-                let new=TypeHome(context: viewContext)
-                new.abdo=Bool.random()
-                new.pompe=Bool.random()
-                if !new.abdo && !new.pompe{
-                    new.abdo=true
-                }
-                day.typeHome=new
+            if activity.home{
+                let objectId=ObjectID(context: viewContext)
+                objectId.id=backup.allWorkInHome().randomElement()!.id
+                activity.addToIdWorkInHome(objectId)
             }
-            day.idTypeDay=[]
-            if !day.club{
-                day.clubRepos=Bool.random()
-                if !day.clubRepos{
-                    day.idTypeDay.append(allTypeDays.randomElement()!.id)
+            activity.idTrainingDay=[]
+            if !activity.club{
+                activity.clubRepos=Bool.random()
+                if !activity.clubRepos && !allTrainingDays.isEmpty{
+                    let objectId=ObjectID(context: viewContext)
+                    objectId.id=allTrainingDays.randomElement()!.id
+                    activity.addToIdTrainingDay(objectId)
                 }
             }else{
-                day.clubRepos=false
-                day.idTypeDay.append(allTypeDays.randomElement()!.id)
+                activity.clubRepos=false
+                if !allTrainingDays.isEmpty{
+                    let objectId=ObjectID(context: viewContext)
+                    objectId.id=allTrainingDays.randomElement()!.id
+                    activity.addToIdTrainingDay(objectId)
+                }
             }
+            backup.addToActivity(activity)
         }
         do {
             try viewContext.save()

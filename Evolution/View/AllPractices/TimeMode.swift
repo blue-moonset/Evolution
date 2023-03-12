@@ -21,7 +21,7 @@ struct TimeMode: View {
                 Button(action: {
                     reset()
                 }){
-                    Text(timerState.timerState!.practices[timerState.timerState!.index].title)
+                    Text(timerState.timerState!.practices[timerState.timerState!.index].name)
                         .fontWeight(.bold)
                         .font(.title3)
                         .lineLimit(1)
@@ -107,15 +107,12 @@ struct TimeMode: View {
                     last()
                 }
             }
-        }.onChange(of:timerState.timerState!.practices[timerState.timerState!.index].title){ new in
-//            reset()
         }.onChange(of:timerState.idRefresh){ new in
             send()
         }.onChange(of:timerState.sendWatchIsReachable){ new in
             if new{
                 send()
                 timerState.sendWatchIsReachable=false
-                print("send after ask")
             }
         }.onAppear{
             send()
@@ -126,7 +123,7 @@ struct TimeMode: View {
         }
     }
     func send(){
-        watchManager.sendFromIOS(sportPractice: AttributesForWatch(timer: timerState.timer, isOn: timerState.isOn, totalAccumulatedTime: timerState.totalAccumulatedTime, practices:convertSportPractice(timerState.timerState!.practices), index: timerState.timerState!.index))
+        watchManager.sendFromIOS(practice: AttributesForWatch(timer: timerState.timer, isOn: timerState.isOn, totalAccumulatedTime: timerState.totalAccumulatedTime, practices:convertPractice(timerState.timerState!.practices), index: timerState.timerState!.index))
             timerState.sendWatchIsReachable=false
     }
     func timerFinish(timer:ClosedRange<Date>){
@@ -209,19 +206,19 @@ import CoreData
 struct TimeMode_Previews: PreviewProvider {
     static let timerState: TimerState = .shared
     static let viewContext=PersistenceController.preview.container.viewContext
-    static let fetchRequest: NSFetchRequest<TypeDay> = TypeDay.fetchRequest()
+    static let fetchRequest: NSFetchRequest<TrainingDay> = TrainingDay.fetchRequest()
     static var previews: some View {
         VStack {
             List {
-                if let typeDay = try? viewContext.fetch(fetchRequest).first, save(typeDay){
+                if let trainingDay = try? viewContext.fetch(fetchRequest).first, save(trainingDay){
                     TimeMode(timerState:timerState)
                 }
             }
         }.environment(\.managedObjectContext, viewContext)
         
     }
-    static func save(_ typeDay:TypeDay)->Bool{
-        TimeMode_Previews.timerState.timerState=(practices:typeDay.allSportPractice(),index:0)
+    static func save(_ trainingDay:TrainingDay)->Bool{
+        TimeMode_Previews.timerState.timerState=(practices:trainingDay.allPractice(),index:0)
         return true
     }
 }

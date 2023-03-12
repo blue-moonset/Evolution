@@ -10,26 +10,19 @@ import UIKit
 import CoreData
 import ActivityKit
 
+
+
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Day.dateOfDay, ascending: false)])
-    private var days: FetchedResults<Day>
-    @FetchRequest(sortDescriptors: [
-    ])var settings:FetchedResults<Settings>
-    @State var isPresented=false
-    @State var indexValue:Int?
-    @State var dateSelect=Date()
+   
     @State var total:Int=0
-    @FetchRequest(sortDescriptors: [
-        SortDescriptor(\.index)
-    ])var typeDay:FetchedResults<TypeDay>
     
-    @State var check:Bool=false
-    @State var dataPractice=DataPractice()
+    @StateObject var mainData:MainData = .shared
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject var timerState:TimerState = .shared
     @StateObject var watchManager : WatchManager = .shared
+    
+    @State var minY:CGFloat = .zero
     var body: some View {
         NavigationStack  {
             VStack(spacing: 0){
@@ -51,20 +44,22 @@ struct ContentView: View {
                             .background(.white)
                         .cornerRadius(10)
                         .onTapGesture {
-                            timerState.typeDaySelect=nil
-                            let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
-                            impactHeavy.impactOccurred()
-
+                            if mainData.trainingDaySelect != nil{
+                                let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
+                                impactHeavy.impactOccurred()
+                                mainData.trainingDaySelect=nil
+                            }
                         }
                     Spacer()
                     Button(action: {
-                        isPresented=true
+                        mainData.presentedSheet=true
+                        mainData.typeSheet = .activity
                         let impactHeavy = UIImpactFeedbackGenerator(style: .medium)
                         impactHeavy.impactOccurred()
                     }) {
                         VStack {
                             Image(systemName: "calendar.badge.plus")
-                            Text("Ajouter une journée")
+                            Text("Ajouter une activité")
                                 .font(.caption2)
                         }
                     }.frame(width: UIScreen.main.bounds.width-180-60)
@@ -75,54 +70,45 @@ struct ContentView: View {
                 .background(Color(.secondarySystemBackground))
 
                 List{
-                    Training(isPresented: $isPresented,check: $check, indexValue:$indexValue)
+                    AllPractices()
+                    
+                    SaveActivity()
+                    
                     Section{
-                        HStack {
-                            Spacer()
-                            if days.count==0 || itemFormatter(days.first!.dateOfDay) != itemFormatter(Date()){
-                                Button(action: {
-                                    isPresented=true
-                                    dateSelect=Date()
-                                }){
-                                    HStack {
-                                        Text("Enregistre ta journée")
-                                            .font(.title3)
-                                        .fontWeight(.semibold)
-                                        Image(systemName: "figure.run")
-                                    }
-                                }
-                            }else{
-                                Text("Bilan de ta journée")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-
-                                if isNegative(points(days.first!).total) == .green{
-                                    Image(systemName: "hands.sparkles.fill").foregroundColor(.green)
-                                }else{
-                                    Image(systemName: "hand.thumbsdown.fill").foregroundColor(.red)
-                                }
-
-
-                            }
-                            Spacer()
-                        }
-                    }
+                        Charts(total:$total)
+                    }.listRowInsets(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                        .listRowBackground(Back(top: true, bottom: true))
+                        .listRowSeparator(.hidden, edges: .all)
+                    AllActivities()
+                        .background(GeometryGetMinY(minY: $minY))
                     Section{
-                        Charts(total:$total, isPresented: $isPresented)
-                    }
-                    DaysTraining(indexValue:$indexValue,dateSelect: $dateSelect, isPresented: $isPresented)
-
-                    Section{
-                        NavigationLink(destination: AddPractice()
+                        NavigationLink(destination: CustomPractice()
                             .onAppear{
                                 let impactHeavy = UIImpactFeedbackGenerator(style: .soft)
                                 impactHeavy.impactOccurred()
                             }
                         ) {
-                            Label("Modifier mes exercies", systemImage: "square.and.pencil")
+                            Label("Modifier mes journées", systemImage: "square.and.pencil")
                                 .foregroundColor(.blue)
                         }
-                    }
+                    }.listRowBackground(Back(top: true, bottom: true))
+                        .listRowSeparator(.hidden, edges: .all)
+                        .listRowInsets(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                    Section{
+                        NavigationLink(destination: CustomWorkInHome()
+                            .onAppear{
+                                let impactHeavy = UIImpactFeedbackGenerator(style: .soft)
+                                impactHeavy.impactOccurred()
+                            }
+                        ) {
+                            Label("Modifier mes exercices à la maison", systemImage: "square.and.pencil")
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.6)
+                        }
+                    }.listRowBackground(Back(top: true, bottom: true))
+                        .listRowSeparator(.hidden, edges: .all)
+                        .listRowInsets(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
                     Section{
                         NavigationLink(destination: SettingsView()
                             .onAppear{
@@ -130,37 +116,68 @@ struct ContentView: View {
                                 impactHeavy.impactOccurred()
                             }
                         ) {
-                            Label("Paramètres", systemImage: "gearshape.fill")
-                                .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                            
+                            HStack {
+                                Label("Paramètres", systemImage: "gearshape.fill")
+                                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
+                                if mainData.alertICloud() != nil{
+                                    Spacer()
+                                    Image(systemName: "exclamationmark.icloud")
+                                        .foregroundColor(.yellow)
+                                }
+                            }
+                        }
+                    }.listRowBackground(Back(top: true, bottom: true))
+                        .listRowSeparator(.hidden, edges: .all)
+                        .listRowInsets(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                }.environment(\.locale, Locale(identifier: "fr"))
+                .navigationTitle("Menu")
+                .navigationBarHidden(true)
+                .listStyle(.grouped)
+                .scrollIndicators(.hidden)
+                .scrollContentBackground(.hidden)
+                .background(Color(.secondarySystemBackground))
+                .overlay(alignment: .trailing){
+                    Rectangle()
+                        .frame(width:20)
+                        .foregroundColor(Color(.secondarySystemBackground))
+                        .offset(y:minY-150)
+                        .edgesIgnoringSafeArea(.bottom)
+                }
+                
+            }.sheet(isPresented: $mainData.presentedSheet){
+                if  mainData.typeSheet == .check || mainData.typeSheet == .activity {
+                    if mainData.typeSheet == .check{
+                        VStack (spacing: 20){
+                            Text("Ton activité a bien été enregistrée")
+                                .font(.callout)
+                            AnimatedCheckmarkView()
+                        }.presentationDetents([.height(100)])
+                        .padding(.top,30)
+                    }else if mainData.typeSheet == .activity{
+                        AddActivities()
+                            .padding(.top,30)
+                            .presentationDetents([.fraction(0.8),.large])
+                    }
+                }else{
+                    VStack {
+                        Text((mainData.typeSheet == .addTrainingDay || mainData.typeSheet == .orderTrainingDay) ? "Ajouter une activité":mainData.trainingDaySelect!.name.capitalizedSentence)
+                            .fontWeight(.semibold)
+                            .padding(.top,10)
+                            .padding(.vertical,5)
+                        if mainData.typeSheet == .addTrainingDay{
+                            AddTrainingDay()
+                        }else if mainData.typeSheet == .updateTrainingDay{
+                            UpdateTrainingDay()
+                        }else if mainData.typeSheet == .orderTrainingDay{
+                            OrderTrainingDay(trainingDayForOrder: Array(mainData.mainBackup!.allTrainingDay()))
+                        }else if mainData.typeSheet == .addPractice{
+                            AddPractice()
+                        }else if mainData.typeSheet == .updatePractice{
+                            UpdatePractice(practice:mainData.updatePractice!)
                         }
                     }
                 }
-                .environment(\.locale, Locale(identifier: "fr"))
-                .navigationTitle("Menu")
-                .navigationBarHidden(true)
-            }.sheet(isPresented: $isPresented){
-                if check{
-                    HStack (spacing: 20){
-                        Image(systemName: "checkmark.circle")
-                            .font(.largeTitle)
-                            .foregroundColor(.green)
-                        Text("La journée a bien été enregistrée")
-                            .font(.callout)
-                    }.presentationDetents([.fraction(0.3),.large])
-                    .onDisappear{
-                        check=false
-                    }
-                }else{
-                    AddActivity(dateSelect: $dateSelect, indexValue:$indexValue)
-                        .padding(.top,30)
-                        .presentationDetents([.fraction(0.8),.large])
-                }
-            }.onAppear{
-//            TODO: refaire le tout pour la suppresion de donee
-//                if !Calendar.current.isDate(settings.first!.dayLastDeleteDone!, inSameDayAs: Date()){
-//                    deleteDone()
-//                    settings.first!.dayLastDeleteDone! = Date()
-//                }
             }
 //            .onOpenURL(perform: { url in
 //                print(url)
@@ -181,7 +198,42 @@ struct ContentView: View {
         }
     }
    
-    
+    @ViewBuilder func SaveActivity()-> some View{
+        if mainData.trainingDaySelect == nil || (!mainData.mainBackup!.allActivity().isEmpty && itemFormatter(mainData.mainBackup!.allActivity().first!.date) == itemFormatter(Date())){
+            Section{
+                HStack {
+                    Spacer()
+                    if mainData.mainBackup!.allActivity().count==0 || itemFormatter(mainData.mainBackup!.allActivity().first!.date) != itemFormatter(Date()){
+                        Button(action: {
+                            mainData.presentedSheet=true
+                            mainData.typeSheet = .activity
+                            mainData.dateSelect=Date()
+                        }){
+                            HStack {
+                                Text("Enregistre ton activité")
+                                    .fontWeight(.semibold)
+                                Image(systemName: "figure.run")
+                            }
+                        }
+                    }else{
+                        Text("Bilan de ta journée")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        
+                        if isNegative(points(mainData.mainBackup!.allActivity().first!).total) == .green{
+                            Image(systemName: "hands.sparkles.fill").foregroundColor(.green)
+                        }else{
+                            Image(systemName: "hand.thumbsdown.fill").foregroundColor(.red)
+                        }
+                        
+                        
+                    }
+                    Spacer()
+                }
+            } .listRowBackground(Back(top: true, bottom: true))
+                .listRowSeparator(.hidden, edges: .all)
+        }
+    }
     func isNegative(_ int:Int) -> Color {
         if int>=0{
             return .green
@@ -189,47 +241,77 @@ struct ContentView: View {
             return .red
         }
     }
-    func points(_ day:Day) -> (club:Int,home:Int,total:Int) {
-        var result:(club:Int,home:Int,total:Int)=(club:0,home:0,total:0)
-        if day.club==true{
-            result.club = Int(settings.first!.clubPointsGo)
-        }else{
-            result.club = Int(settings.first!.clubPointsNone)
-        }
-        result.total += result.club
-        if day.home==true{
-            result.home = Int(settings.first!.homePointsGo)
-        }else{
-            result.home = Int(settings.first!.homePointsNone)
-        }
-        result.total += result.home
-        return result
+}
+func points(_ activity:Activity) -> (club:Int,home:Int,total:Int) {
+    var result:(club:Int,home:Int,total:Int)=(club:0,home:0,total:0)
+    if activity.club==true{
+        result.club = Int(MainData.shared.mainBackup!.settings!.clubPointsGo)
+    }else{
+        result.club = Int(MainData.shared.mainBackup!.settings!.clubPointsNone)
     }
-    private func deleteDone() {
-        for day in typeDay{
-            for practice in day.allSportPractice(){
-                practice.done=false
-            }
+    result.total += result.club
+    if activity.home==true{
+        result.home = Int(MainData.shared.mainBackup!.settings!.homePointsGo)
+    }else{
+        result.home = Int(MainData.shared.mainBackup!.settings!.homePointsNone)
+    }
+    result.total += result.home
+    return result
+}
+struct ContentView_Previews: PreviewProvider {
+    static var mainData:MainData = .shared
+    static let viewContext=PersistenceController.preview.container.viewContext
+    
+    static let fetchRequest: NSFetchRequest<Backup> = Backup.fetchRequest()
+    static var previews: some View {
+        if let backup = try? viewContext.fetch(fetchRequest).first, save(backup){
+            ContentView()
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            
         }
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
+    }
+    static func save(_ backup:Backup)->Bool{
+        mainData.mainBackup=backup
+        return true
     }
 }
-func itemFormatter(_ date:Date)->String{
-    let formatter = DateFormatter()
-    formatter.dateFormat = "EEEE d MMMM"
-    formatter.locale = Locale(identifier: "fr")
-    return formatter.string(from: date).capitalized
+public var impactLight:(() -> Void)={
+    var impact=UIImpactFeedbackGenerator(style: .light)
+    impact.impactOccurred(intensity: 0.8)
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-           
+func showLine(first:Int,last:Int,item:Int) -> VerticalEdge.Set? {
+    if item==first && item==last{
+        return .all
+    }else if item==first{
+        return .top
+    }else if item==last{
+        return .bottom
+    }else{
+        return nil
     }
+}
+@ViewBuilder
+func Back(top:Bool,bottom:Bool)-> some View{
+    if let corners=cornerList(top,bottom){
+        Color.white
+            .cornerRadius(10,corners:corners)
+            .padding(.horizontal,20)
+    }else{
+        Color.white
+            .padding(.horizontal,20)
+    }
+}
+func cornerList(_ top:Bool,_ bottom:Bool) -> UIRectCorner? {
+    var array:UIRectCorner?
+    if top && bottom{
+        array=[.allCorners]
+    }else{
+        if top{
+            array=[.topLeft,.topRight]
+        }else if bottom{
+            array=[.bottomLeft,.bottomRight]
+        }
+    }
+    return array
 }

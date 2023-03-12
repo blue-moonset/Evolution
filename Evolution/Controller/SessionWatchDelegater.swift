@@ -12,6 +12,7 @@ import WatchConnectivity
 class SessionWatchDelegater: NSObject, WCSessionDelegate {
     let countSubject: PassthroughSubject<AttributesForWatchConvert?, Never>
     var timerState:TimerState = .shared
+    var mainData:MainData = .shared
     init(countSubject: PassthroughSubject<AttributesForWatchConvert?, Never>) {
         self.countSubject = countSubject
         super.init()
@@ -30,17 +31,17 @@ class SessionWatchDelegater: NSObject, WCSessionDelegate {
                    let index = iOS["index"] as? Int,
                    let practices = iOS["practices"] as? [String: [String: Any]]{
                     
-                    var sportPracticeForWatch=[SportPracticeForWatch]()
+                    var practiceForWatch=[PracticeForWatch]()
                     for i in 0...practices.count-1{
                         if let item = practices["\(i)"],
-                           let title = item["title"] as? String,
+                           let name = item["name"] as? String,
                            let repetitions = item["repetitions"] as? String,
                            let done = item["done"] as? Int,
                            let repos = item["repos"] as? Int,
                            let idString = item["id"] as? String,
                            let id=UUID(uuidString: idString){
                             let doneValue=(done==0 ? false:true)
-                            sportPracticeForWatch.append(SportPracticeForWatch(repetitions: repetitions, title: title, done: doneValue, repos: repos, id: id))
+                            practiceForWatch.append(PracticeForWatch(repetitions: repetitions, name: name, done: doneValue, repos: repos, id: id))
                         }
                     }
                     
@@ -53,8 +54,8 @@ class SessionWatchDelegater: NSObject, WCSessionDelegate {
                         timer = startDate!...endDate!
                     }
                     
-                    let sportPractice = AttributesForWatchConvert(timer: timer, isOn: isOnValue,totalAccumulatedTime: totalAccumulatedTime, practices: sportPracticeForWatch,index: index)
-                    self.countSubject.send(sportPractice)
+                    let practice = AttributesForWatchConvert(timer: timer, isOn: isOnValue,totalAccumulatedTime: totalAccumulatedTime, practices: practiceForWatch,index: index)
+                    self.countSubject.send(practice)
                     
                 } else {
                     print("There was an error")
@@ -70,7 +71,11 @@ class SessionWatchDelegater: NSObject, WCSessionDelegate {
                     let isOnValue=(isOn==0 ? false:true)
                     self.timerState.isOn=isOnValue
                     if self.timerState.timerState != nil{
-                        self.timerState.timerState!.index=index
+                        if let trainingDaySelect=self.mainData.trainingDaySelect,index <= trainingDaySelect.allPractice().count-1,!trainingDaySelect.allPractice().isEmpty{
+                            self.timerState.timerState!.index=index
+                        }else if let trainingDaySelect=self.mainData.trainingDaySelect,!trainingDaySelect.allPractice().isEmpty{
+                            self.timerState.timerState!.index = trainingDaySelect.allPractice().count-1
+                        }
                     }
                     
                     var timer: ClosedRange<Date>?

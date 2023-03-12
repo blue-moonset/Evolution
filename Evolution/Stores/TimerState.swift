@@ -10,8 +10,8 @@ import Foundation
 
 public class TimerState: ObservableObject{
     static let shared = TimerState()
-    @Published var typeDaySelect:TypeDay?
-    @Published var timerState:(practices:[SportPractice],index:Int)?
+    
+    @Published var timerState:(practices:[Practice],index:Int)?
     @Published var sendWatchIsReachable=false
     @Published var practicesDone:[UUID]?
     @Published var totalAccumulatedTime:Double=0
